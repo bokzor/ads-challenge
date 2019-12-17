@@ -74,6 +74,9 @@ export class AreaChartComponent implements OnInit {
         .y(d => this.y((d as any).temp1))
       );
 
+    this.svg.append('circle').attr('cx', 10).attr('cy', 130).attr('r', 6).style('fill', 'steelblue');
+    this.svg.append('text').attr('x', 20).attr('y', 130).text('temp1 °').style('font-size', '11px').attr('alignment-baseline', 'middle');
+
     this.svg.append('path')
       .datum(data)
       .attr('fill', 'none')
@@ -83,6 +86,9 @@ export class AreaChartComponent implements OnInit {
         .x(d => this.x(new Date((d as any).time)))
         .y(d => this.y((d as any).temp2))
       );
+
+    this.svg.append('circle').attr('cx', 10).attr('cy', 160).attr('r', 6).style('fill', 'red');
+    this.svg.append('text').attr('x', 20).attr('y', 160).text('temp2 °').style('font-size', '11px').attr('alignment-baseline', 'middle');
 
     this.svg.append('path')
       .datum(data)
@@ -94,6 +100,9 @@ export class AreaChartComponent implements OnInit {
         .y(d => this.y((d as any).temp3))
       );
 
+    this.svg.append('circle').attr('cx', 10).attr('cy', 190).attr('r', 6).style('fill', 'black');
+    this.svg.append('text').attr('x', 20).attr('y', 190).text('temp3 °').style('font-size', '11px').attr('alignment-baseline', 'middle');
+
     this.svg.append('path')
       .datum(data)
       .attr('fill', 'none')
@@ -103,6 +112,12 @@ export class AreaChartComponent implements OnInit {
         .x(d => this.x(new Date((d as any).time)))
         .y(d => this.y((d as any).temp4))
       );
+
+    this.svg.append('circle').attr('cx', 10).attr('cy', 220).attr('r', 6).style('fill', 'green');
+    this.svg.append('text').attr('x', 20).attr('y', 220).text('temp4 °').style('font-size', '11px').attr('alignment-baseline', 'middle');
+
+
+
 
   }
 
