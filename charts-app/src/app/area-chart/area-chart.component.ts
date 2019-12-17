@@ -20,10 +20,6 @@ export class AreaChartComponent implements OnInit {
   x; // X-axis graphical coordinates
   y; // Y-axis graphical coordinates
   colors = d3.scaleOrdinal(d3.schemeCategory10);
-  bins; // Array of frequency distributions - one for each area chaer
-  paths; // Path elements for each area chart
-  area; // For D3 area function
-  histogram; // For D3 histogram function
   formatTime = d3.timeFormat('%b %e');
 
   constructor(private elRef: ElementRef, private dataService: DataService) {
@@ -39,9 +35,8 @@ export class AreaChartComponent implements OnInit {
 
 
       const yScale = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.max1)]) // start the domain at 0 instead of min
+        .domain([0, d3.max(data, d => d.max1)])
         .range([this.height - this.margin.bottom, this.margin.top]);
-
 
       this.setColorScale();
 
@@ -56,8 +51,8 @@ export class AreaChartComponent implements OnInit {
   }
 
   private addData(data: CSVRecord[]) {
-// add a thin line for each data point
-    this.svg.selectAll('line')
+// histogram
+/*    this.svg.selectAll('temp1')
       .data(data)
       .enter()
       .append('line')
@@ -65,8 +60,49 @@ export class AreaChartComponent implements OnInit {
       .attr('y1', this.height - this.margin.bottom)
       .attr('x2', d => this.x(new Date(d.time)))
       .attr('y2', d => this.y(d.temp1))
-      .attr('stroke', '#ddd')
-      .attr('stroke-width', 1);
+      .attr('stroke', 'red')
+      .attr('stroke-width', 1);*/
+
+
+    this.svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'steelblue')
+      .attr('stroke-width', 1.5)
+      .attr('d', d3.line()
+        .x(d => this.x(new Date((d as any).time)))
+        .y(d => this.y((d as any).temp1))
+      );
+
+    this.svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'red')
+      .attr('stroke-width', 1.5)
+      .attr('d', d3.line()
+        .x(d => this.x(new Date((d as any).time)))
+        .y(d => this.y((d as any).temp2))
+      );
+
+    this.svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'black')
+      .attr('stroke-width', 1.5)
+      .attr('d', d3.line()
+        .x(d => this.x(new Date((d as any).time)))
+        .y(d => this.y((d as any).temp3))
+      );
+
+    this.svg.append('path')
+      .datum(data)
+      .attr('fill', 'none')
+      .attr('stroke', 'green')
+      .attr('stroke-width', 1.5)
+      .attr('d', d3.line()
+        .x(d => this.x(new Date((d as any).time)))
+        .y(d => this.y((d as any).temp4))
+      );
 
   }
 
@@ -80,11 +116,9 @@ export class AreaChartComponent implements OnInit {
 
     this.g.append('g')
       .attr('transform', `translate(0, ${this.height - this.margin.bottom})`)
-      .attr('stroke-width', 0.5)
+      .attr('stroke-width', 1)
       .call(d3.axisBottom(this.x).ticks(12)
-
         .tickFormat(this.formatTime));
-
   }
 
   private createYAxis(data: CSVRecord[]) {
@@ -93,6 +127,7 @@ export class AreaChartComponent implements OnInit {
       .range([this.height - this.margin.bottom, this.margin.top]);
 
     this.g.append('g')
+      .attr('transform', `translate(${this.margin.left},0)`)
       .call(d3.axisLeft(this.y).ticks(10));
   }
 
